@@ -6,13 +6,15 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.List;
+
+import amit.recruitment.com.earthquake.data.Earthquake;
+import amit.recruitment.com.earthquake.interfaces.MainView;
 
 /**
  * @author amit kumar saha

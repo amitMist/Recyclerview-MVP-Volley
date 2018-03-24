@@ -6,6 +6,13 @@ import android.net.NetworkInfo;
 
 import java.util.List;
 
+import amit.recruitment.com.earthquake.data.Earthquake;
+import amit.recruitment.com.earthquake.data.EarthquakeDataManager;
+import amit.recruitment.com.earthquake.interfaces.GetDataListener;
+import amit.recruitment.com.earthquake.interfaces.MainInteractor;
+import amit.recruitment.com.earthquake.interfaces.MainPresenter;
+import amit.recruitment.com.earthquake.interfaces.MainView;
+
 /**
  * Created by amit on 3/23/18.
  */

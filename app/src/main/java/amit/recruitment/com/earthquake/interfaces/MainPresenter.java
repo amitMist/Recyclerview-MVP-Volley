@@ -1,4 +1,4 @@
-package amit.recruitment.com.earthquake;
+package amit.recruitment.com.earthquake.interfaces;
 
 import android.content.Context;
 

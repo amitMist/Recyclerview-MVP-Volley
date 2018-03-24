@@ -1,7 +1,6 @@
 package amit.recruitment.com.earthquake;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +10,8 @@ import android.view.ViewGroup;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import amit.recruitment.com.earthquake.data.Earthquake;
 
 /**
  * Created by amit on 3/23/18.

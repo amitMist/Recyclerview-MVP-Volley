@@ -1,6 +1,8 @@
-package amit.recruitment.com.earthquake;
+package amit.recruitment.com.earthquake.data;
 
 import java.util.List;
+
+import amit.recruitment.com.earthquake.data.Earthquake;
 
 /**
  * Created by amit on 3/23/18.

@@ -1,8 +1,8 @@
-package amit.recruitment.com.earthquake;
-
-import android.content.Context;
+package amit.recruitment.com.earthquake.interfaces;
 
 import java.util.List;
+
+import amit.recruitment.com.earthquake.data.Earthquake;
 
 /**
  * Created by amit on 3/22/18.

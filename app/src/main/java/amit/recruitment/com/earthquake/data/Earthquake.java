@@ -1,4 +1,4 @@
-package amit.recruitment.com.earthquake;
+package amit.recruitment.com.earthquake.data;
 
 import java.util.Date;
 

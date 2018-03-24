@@ -14,8 +14,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
-import java.util.ArrayList;
-import java.util.List;
+import amit.recruitment.com.earthquake.data.EarthquakeResponse;
+import amit.recruitment.com.earthquake.interfaces.GetDataListener;
+import amit.recruitment.com.earthquake.interfaces.MainInteractor;
 
 /**
  * Created by amit on 3/23/18.
