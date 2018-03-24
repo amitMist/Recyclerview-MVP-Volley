@@ -22,6 +22,9 @@ public class MainPresenterImpl implements MainPresenter, GetDataListener {
     private MainView mMainView;
     private MainInteractor mInteractor;
 
+    public MainView getMainView() {
+        return mMainView;
+    }
 
     public MainPresenterImpl(MainView mMainView) {
         this.mMainView = mMainView;
