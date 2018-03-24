@@ -18,7 +18,7 @@ import amit.recruitment.com.earthquake.interfaces.MainView;
 
 /**
  * @author amit kumar saha
- *
+ * Created by amit on 3/23/18.
  */
 
 public class MainActivity extends AppCompatActivity implements MainView,SwipeRefreshLayout.OnRefreshListener {
