@@ -1,8 +1,6 @@
 package amit.recruitment.com.earthquake;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import java.util.List;
 
@@ -22,48 +20,23 @@ public class MainPresenterImpl implements MainPresenter, GetDataListener {
     private MainView mMainView;
     private MainInteractor mInteractor;
 
-    public MainView getMainView() {
-        return mMainView;
-    }
-
     public MainPresenterImpl(MainView mMainView) {
         this.mMainView = mMainView;
         this.mInteractor = new MainInteractorImpl(this);
     }
 
+    public MainView getMainView() {
+        return mMainView;
+    }
+
     @Override
     public void getDataForList(Context context, boolean isRestoring) {
 
-        Boolean shouldLoadFromNetwork = false;
-        if (isRestoring) {
+        // get this done by the interactor
+        mMainView.showProgress();
+        mInteractor.provideData(context, isRestoring);
 
-            List<Earthquake> existingData = EarthquakeDataManager.getInstance().getLatestData();
-
-            if (existingData != null && !existingData.isEmpty()) {
-                // we have cached copy of data for restoring purpose
-                shouldLoadFromNetwork = false;
-                onSuccess("Restored Data", existingData);
-            } else {
-                shouldLoadFromNetwork = true;
-            }
-        } else {
-            shouldLoadFromNetwork = true;
-        }
-
-        if (shouldLoadFromNetwork) {
-
-            if (checkInternet(context)) {
-                // get this done by the interactor
-                mMainView.showProgress();
-                mInteractor.initNetworkCall(context, Endpoints.EQ_URL);
-            } else {
-
-                onFailure("No internet connection.");
-            }
-
-        }
     }
-
 
     @Override
     public void onDestroy() {
@@ -78,7 +51,7 @@ public class MainPresenterImpl implements MainPresenter, GetDataListener {
     @Override
     public void onSuccess(String message, List<Earthquake> list) {
 
-        // updating cach copy of data for restoring purpose
+        // updating cache copy of data for restoring purpose
         EarthquakeDataManager.getInstance().setLatestData(list);
 
         if (mMainView != null) {
@@ -96,13 +69,4 @@ public class MainPresenterImpl implements MainPresenter, GetDataListener {
 
     }
 
-    public Boolean checkInternet(Context context) {
-        ConnectivityManager cn = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = cn.getActiveNetworkInfo();
-        if (activeNetworkInfo != null && activeNetworkInfo.isConnected() == true) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }

@@ -11,6 +11,7 @@ import amit.recruitment.com.earthquake.data.Earthquake;
 public interface GetDataListener {
 
     void onSuccess(String message, List<Earthquake> list);
+
     void onFailure(String message);
 
 }

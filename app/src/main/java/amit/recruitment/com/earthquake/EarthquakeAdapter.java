@@ -31,7 +31,7 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item, parent, false);
         ItemViewHolder itemViewHolder = new ItemViewHolder(view);
         return itemViewHolder;
     }
@@ -41,13 +41,13 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
         Earthquake eq = mDatalist.get(position);
         holder.tvEqDate.setText(dateFormat.format(eq.getDatetime()));
-        holder.tvEqDepth.setText("Depth: "+eq.getDepth());
-        holder.tvEqMagnitude.setText(eq.getMagnitude()+"!");
+        holder.tvEqDepth.setText("Depth: " + eq.getDepth());
+        holder.tvEqMagnitude.setText(eq.getMagnitude() + "!");
 
-        if(eq.getMagnitude()>=8.0){
-            holder.mBackgroundView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.colorMagnitude));
-        }else{
-            holder.mBackgroundView.setBackgroundColor(ContextCompat.getColor(mContext,R.color.cardview_light_background));
+        if (eq.getMagnitude() >= 6.0) {
+            holder.mBackgroundView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorMagnitude));
+        } else {
+            holder.mBackgroundView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.cardview_light_background));
         }
     }
 

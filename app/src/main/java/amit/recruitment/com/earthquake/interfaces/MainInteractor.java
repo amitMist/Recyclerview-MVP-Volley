@@ -8,7 +8,8 @@ import android.content.Context;
 
 public interface MainInteractor {
 
-    void initNetworkCall(Context context, String url);
+    void provideData(Context context, boolean isRestoring);
+
     void onDestroy();
 
 }

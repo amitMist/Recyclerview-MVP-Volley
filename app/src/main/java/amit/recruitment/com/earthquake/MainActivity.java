@@ -18,27 +18,21 @@ import amit.recruitment.com.earthquake.interfaces.MainView;
 
 /**
  * @author amit kumar saha
- * Created by amit on 3/23/18.
+ *         Created by amit on 3/23/18.
  */
 
-public class MainActivity extends AppCompatActivity implements MainView,SwipeRefreshLayout.OnRefreshListener {
-
-    private RecyclerView mRecyclerView;
-    private SwipeRefreshLayout mSwipeContainer;
-
-    LinearLayoutManager linearLayoutManager;
-    EarthquakeAdapter mEarthquakeAdapter;
-
-    private MainPresenterImpl mMainPresenter;
-
-
-    private boolean wasLoadingState=false;
-    private boolean wasRestoringState=false;
+public class MainActivity extends AppCompatActivity implements MainView, SwipeRefreshLayout.OnRefreshListener {
 
     private final String LOADING_TAG = "MainActivity_LOADING";
     private final String CONTENT_TAG = "MainActivity_CONTENT";
     private final String STATE_TAG = "MainActivity_KeyForLayoutManagerState";
-
+    LinearLayoutManager linearLayoutManager;
+    EarthquakeAdapter mEarthquakeAdapter;
+    private RecyclerView mRecyclerView;
+    private SwipeRefreshLayout mSwipeContainer;
+    private MainPresenterImpl mMainPresenter;
+    private boolean wasLoadingState = false;
+    private boolean wasRestoringState = false;
     private Parcelable savedRecyclerLayoutState;
 
     @Override
@@ -47,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements MainView,SwipeRef
         setContentView(R.layout.activity_main);
 
         linearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView = (RecyclerView)findViewById(R.id.eqRecyclerList);
+        mRecyclerView = (RecyclerView) findViewById(R.id.eqRecyclerList);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
         mSwipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
@@ -60,45 +54,46 @@ public class MainActivity extends AppCompatActivity implements MainView,SwipeRef
                 android.R.color.holo_red_light);
 
 
-        if(savedInstanceState!=null){
-            wasLoadingState = savedInstanceState.getBoolean(LOADING_TAG,false);
-            wasRestoringState = savedInstanceState.getBoolean(CONTENT_TAG,false);
+        if (savedInstanceState != null) {
+            wasLoadingState = savedInstanceState.getBoolean(LOADING_TAG, false);
+            wasRestoringState = savedInstanceState.getBoolean(CONTENT_TAG, false);
             savedRecyclerLayoutState = savedInstanceState.getParcelable(STATE_TAG);
         }
 
     }
+
     @Override
     protected void onStart() {
         super.onStart();
 
         mMainPresenter = new MainPresenterImpl(this);
 
-        if(wasLoadingState){
+        if (wasLoadingState) {
             // it was loading already so restart fetching anyway
-            mMainPresenter.getDataForList(getApplicationContext(),false);
-        }else{
+            mMainPresenter.getDataForList(getApplicationContext(), false);
+        } else {
             // it was not loading now it wither restores cached data or fetch from network
-            mMainPresenter.getDataForList(getApplicationContext(),wasRestoringState);
+            mMainPresenter.getDataForList(getApplicationContext(), wasRestoringState);
         }
 
     }
 
     @Override
     public void onGetDataSuccess(String message, List<Earthquake> list) {
-        mEarthquakeAdapter = new EarthquakeAdapter(getApplicationContext(),list);
+        mEarthquakeAdapter = new EarthquakeAdapter(getApplicationContext(), list);
         mRecyclerView.setAdapter(mEarthquakeAdapter);
 
-        if(savedRecyclerLayoutState!=null){
+        if (savedRecyclerLayoutState != null) {
             mRecyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
 
         }
-        savedRecyclerLayoutState=null;
+        savedRecyclerLayoutState = null;
 
     }
 
     @Override
     public void onGetDataFailure(String message) {
-        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -116,38 +111,32 @@ public class MainActivity extends AppCompatActivity implements MainView,SwipeRef
             mProgressDialog=null;
         }*/
 
-        if(mSwipeContainer!=null && mSwipeContainer.isRefreshing()){
+        if (mSwipeContainer != null && mSwipeContainer.isRefreshing()) {
             mSwipeContainer.setRefreshing(false);
         }
     }
 
     @Override
     public void showMessage(String message) {
-        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
-        if(mEarthquakeAdapter!=null && mEarthquakeAdapter.getItemCount()!=0){
+        if (mEarthquakeAdapter != null && mEarthquakeAdapter.getItemCount() != 0) {
             // for data restoring purpose
-            outState.putBoolean(CONTENT_TAG,true);
-        }else{
-            outState.putBoolean(CONTENT_TAG,false);
+            outState.putBoolean(CONTENT_TAG, true);
+        } else {
+            outState.putBoolean(CONTENT_TAG, false);
         }
 
-        if(mSwipeContainer!=null && mSwipeContainer.isRefreshing()){
+        if (mSwipeContainer != null && mSwipeContainer.isRefreshing()) {
             // saving the loading state
-            outState.putBoolean(LOADING_TAG,true);
-        }else{
-            outState.putBoolean(LOADING_TAG,false);
+            outState.putBoolean(LOADING_TAG, true);
+        } else {
+            outState.putBoolean(LOADING_TAG, false);
         }
-        /*if(mProgressDialog!=null && mProgressDialog.isShowing()){
-            // saving the loading state
-            outState.putBoolean(LOADING_TAG,true);
-        }else{
-            outState.putBoolean(LOADING_TAG,false);
-        }*/
 
         outState.putParcelable(STATE_TAG, linearLayoutManager.onSaveInstanceState());
 
@@ -157,19 +146,19 @@ public class MainActivity extends AppCompatActivity implements MainView,SwipeRef
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
 
-        boolean isRestoringVal=false;
-        boolean isLoadingState=false;
+        boolean isRestoringVal = false;
+        boolean isLoadingState = false;
 
-        if(savedInstanceState!=null){
-            isRestoringVal= savedInstanceState.getBoolean(CONTENT_TAG,false);
-            isLoadingState = savedInstanceState.getBoolean(LOADING_TAG,false);
+        if (savedInstanceState != null) {
+            isRestoringVal = savedInstanceState.getBoolean(CONTENT_TAG, false);
+            isLoadingState = savedInstanceState.getBoolean(LOADING_TAG, false);
         }
-        if(isLoadingState){
+        if (isLoadingState) {
             // it was loading already so restart fetching anyway
-            mMainPresenter.getDataForList(getApplicationContext(),false);
-        }else{
-            // it was not loading now it wither restores cached data or fetch from network
-            mMainPresenter.getDataForList(getApplicationContext(),isRestoringVal);
+            mMainPresenter.getDataForList(getApplicationContext(), false);
+        } else {
+            // it was not loading then, now it whether restores cached data or fetch from network
+            mMainPresenter.getDataForList(getApplicationContext(), isRestoringVal);
         }
         savedRecyclerLayoutState = savedInstanceState.getParcelable(STATE_TAG);
         super.onRestoreInstanceState(savedInstanceState);
@@ -187,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements MainView,SwipeRef
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_refresh:
-                mMainPresenter.getDataForList(getApplicationContext(),false);
+                mMainPresenter.getDataForList(getApplicationContext(), false);
                 return true;
 
             default:
@@ -204,6 +193,6 @@ public class MainActivity extends AppCompatActivity implements MainView,SwipeRef
     @Override
     public void onRefresh() {
         //force refresh
-        mMainPresenter.getDataForList(getApplicationContext(),false);
+        mMainPresenter.getDataForList(getApplicationContext(), false);
     }
 }

@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/backgroundView"
         android:weightSum="10">
 
         <LinearLayout
@@ -24,18 +23,18 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tvEqDate"
                 android:text="EQ Data"
-                android:padding="8dp"
-                android:textSize="20dp"
-                android:textColor="#161616"/>
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="@color/colorCommonText"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvEqDepth"
                 android:text="EQ Data"
-                android:padding="8dp"
-                android:textSize="20dp"
-                android:textColor="#161616"/>
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="@color/colorCommonText"/>
 
         </LinearLayout>
 
@@ -44,15 +43,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:orientation="vertical"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+            android:id="@+id/backgroundView">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Magnitude"
-                android:padding="8dp"
-                android:textSize="20dp"
-                android:textColor="#161616"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="@color/colorCommonText"
                 android:gravity="center" />
 
             <TextView
@@ -60,9 +60,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tvEqMagnitude"
                 android:text="EQ Data"
-                android:padding="8dp"
-                android:textSize="20dp"
-                android:textColor="#161616"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="@color/colorCommonText"
                 android:gravity="center" />
 
         </LinearLayout>

@@ -1,6 +1,8 @@
 package amit.recruitment.com.earthquake;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -14,6 +16,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
+import java.util.List;
+
+import amit.recruitment.com.earthquake.data.Earthquake;
+import amit.recruitment.com.earthquake.data.EarthquakeDataManager;
 import amit.recruitment.com.earthquake.data.EarthquakeResponse;
 import amit.recruitment.com.earthquake.interfaces.GetDataListener;
 import amit.recruitment.com.earthquake.interfaces.MainInteractor;
@@ -27,7 +33,7 @@ public class MainInteractorImpl implements MainInteractor {
     private GetDataListener mGetDatalistener;
     private RequestQueue mRequestQueue;
 
-    private final String REQUEST_TAG= "EQ-Network-Call";
+    private final String REQUEST_TAG = "EQ-Network-Call";
 
     public MainInteractorImpl(GetDataListener mGetDatalistener) {
 
@@ -35,6 +41,35 @@ public class MainInteractorImpl implements MainInteractor {
     }
 
     @Override
+    public void provideData(Context context, boolean isRestoring) {
+
+        Boolean shouldLoadFromNetwork = false;
+        if (isRestoring) {
+
+            List<Earthquake> existingData = EarthquakeDataManager.getInstance().getLatestData();
+
+            if (existingData != null && !existingData.isEmpty()) {
+                // we have cached copy of data for restoring purpose
+                shouldLoadFromNetwork = false;
+                mGetDatalistener.onSuccess("Restored Data", existingData);
+            } else {
+                shouldLoadFromNetwork = true;
+            }
+        } else {
+            shouldLoadFromNetwork = true;
+        }
+
+        if (shouldLoadFromNetwork) {
+
+            if (checkInternet(context)) {
+                this.initNetworkCall(context, Endpoints.EQ_URL);
+            } else {
+                mGetDatalistener.onFailure("No internet connection.");
+            }
+        }
+    }
+
+
     public void initNetworkCall(Context context, String url) {
 
         cancelAllRequests();
@@ -52,11 +87,12 @@ public class MainInteractorImpl implements MainInteractor {
 
     }
 
-    private void cancelAllRequests(){
-        if(mRequestQueue!=null){
+    private void cancelAllRequests() {
+        if (mRequestQueue != null) {
             mRequestQueue.cancelAll(REQUEST_TAG);
         }
     }
+
     @Override
     public void onDestroy() {
         cancelAllRequests();
@@ -91,4 +127,14 @@ public class MainInteractorImpl implements MainInteractor {
             mGetDatalistener.onFailure(error.toString());
         }
     };
+
+    public Boolean checkInternet(Context context) {
+        ConnectivityManager cn = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = cn.getActiveNetworkInfo();
+        if (activeNetworkInfo != null && activeNetworkInfo.isConnected() == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
